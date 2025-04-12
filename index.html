@@ -35,6 +35,7 @@
           // User is signed in, get token to pass back
           result.user.getIdToken().then(token => {
             // Use a custom URL scheme (e.g., myapp://) to send user back to Electron app.
+            console.log('Firebase ID Token:', token);
             window.location.href = `deskersizer://login?token=${token}`;
           });
         } else {
