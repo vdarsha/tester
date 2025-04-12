@@ -22,7 +22,7 @@
 
       // Trigger sign in with redirect
       function signInWithGoogle() {
-        firebase.auth().signInWithRedirect(provider);
+        firebase.auth().signInWithPopup(provider);
       }
 
       window.onload = function() {
