@@ -30,24 +30,21 @@
       }
 
       // After the redirect from Google login, handle the result.
-      firebase
-        .auth()
-        .getRedirectResult()
-        .then((result) => {
-          if (result.user) {
-            // Optionally, retrieve the ID token (or any other token you might need)
-            result.user.getIdToken().then((token) => {
-              // Redirect back to your Electron app using a custom URL scheme.
-              // For example, if your app is registered to handle "myapp://" URLs,
-              // then navigate to "myapp://login?token=XYZ"
-              window.location.href = `myapp://login?token=${token}`;
-            });
-          }
-        })
-        .catch((error) => {
-          console.error("Error during sign in redirect", error);
-          // Optionally, you might display an error message or retry.
-        });
+      firebase.auth().getRedirectResult().then(result => {
+        if (result.user) {
+          // User is signed in, get token to pass back
+          result.user.getIdToken().then(token => {
+            // Use a custom URL scheme (e.g., myapp://) to send user back to Electron app.
+            window.location.href = `deskersizer://login?token=${token}`;
+          });
+        } else {
+          // No user (or not a redirect result), so initiate sign in automatically
+          signInWithGoogle();
+        }
+      }).catch(error => {
+        console.error("Error during sign-in redirect:", error);
+        // Optionally, show error message or handle retry.
+      });
 
       // Automatically trigger sign-in as soon as the page loads.
       window.onload = () => {
