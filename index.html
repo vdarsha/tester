@@ -44,16 +44,16 @@
               });
             } else {
               // No user is signed in. Only trigger a redirect if we haven't done it already.
-              if (!localStorage.getItem('redirectAttempted')) {
-                localStorage.setItem('redirectAttempted', 'true');
-                signInWithGoogle();
-              } else {
+              // if (!localStorage.getItem('redirectAttempted')) {
+              //   localStorage.setItem('redirectAttempted', 'true');
+              //   signInWithGoogle();
+              // } else {
                 // If already attempted, show an option for the user to click manually
                 document.body.innerHTML = `
                   <h1>Please sign in with Google</h1>
                   <button onclick="signInWithGoogle()">Sign in with Google</button>
                 `;
-              }
+              // }
             }
           })
           .catch((error) => {
