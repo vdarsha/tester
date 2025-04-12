@@ -2,61 +2,69 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Google Login</title>
-    <!-- Load Firebase libraries (adjust version as needed) -->
+    <title>Google Login Redirect Test</title>
+    <!-- Load Firebase libraries -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script>
-      // Your Firebase configuration – replace with your actual config values.
+      // Replace with your Firebase configuration
       const firebaseConfig = {
         apiKey: "AIzaSyDvQvYVbzsfKk_-TTlIruZt7Tf28b_XG_4",
-        authDomain: "deskersizer.firebaseapp.com",
-        projectId: "deskersizer",
-        storageBucket: "deskersizer.firebasestorage.app",
-        messagingSenderId: "848878159272",
-        appId: "1:848878159272:web:8626b5d20738370924c99d"
+      authDomain: "deskersizer.firebaseapp.com",
+      projectId: "deskersizer",
+      storageBucket: "deskersizer.firebasestorage.app",
+      messagingSenderId: "848878159272",
+      appId: "1:848878159272:web:8626b5d20738370924c99d"
       };
 
-      // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
-
-      // Create the Google provider.
       const provider = new firebase.auth.GoogleAuthProvider();
 
-      // Function to trigger sign in on load.
+      // Trigger sign in with redirect
       function signInWithGoogle() {
-        // Automatically start the sign-in redirect
         firebase.auth().signInWithRedirect(provider);
       }
 
-      // After the redirect from Google login, handle the result.
-      firebase.auth().getRedirectResult().then(result => {
-        if (result.user) {
-          // User is signed in, get token to pass back
-          result.user.getIdToken().then(token => {
-            // Use a custom URL scheme (e.g., myapp://) to send user back to Electron app.
-            console.log('Firebase ID Token:', token);
-            window.location.href = `deskersizer://login?token=${token}`;
+      window.onload = function() {
+        firebase.auth().getRedirectResult()
+          .then((result) => {
+            if (result.user) {
+              // User came back from sign in, get token:
+              result.user.getIdToken().then((token) => {
+                console.log('Firebase ID Token:', token);
+                document.body.innerHTML = `<h1>Firebase ID Token:</h1><pre>${token}</pre>`;
+                // Clear the redirect flag after a successful login.
+                localStorage.removeItem('redirectAttempted');
+              });
+            } else if (firebase.auth().currentUser) {
+              // In case the auth state is already set (e.g., due to a previously saved session)
+              firebase.auth().currentUser.getIdToken().then((token) => {
+                console.log('Token from currentUser:', token);
+                document.body.innerHTML = `<h1>Firebase ID Token:</h1><pre>${token}</pre>`;
+              });
+            } else {
+              // No user is signed in. Only trigger a redirect if we haven't done it already.
+              if (!localStorage.getItem('redirectAttempted')) {
+                localStorage.setItem('redirectAttempted', 'true');
+                signInWithGoogle();
+              } else {
+                // If already attempted, show an option for the user to click manually
+                document.body.innerHTML = `
+                  <h1>Please sign in with Google</h1>
+                  <button onclick="signInWithGoogle()">Sign in with Google</button>
+                `;
+              }
+            }
+          })
+          .catch((error) => {
+            console.error("Error during sign-in redirect:", error);
+            document.body.innerHTML = `<h1>Error occurred</h1><p>${error.message}</p>`;
           });
-        } else {
-          // No user (or not a redirect result), so initiate sign in automatically
-          signInWithGoogle();
-        }
-      }).catch(error => {
-        console.error("Error during sign-in redirect:", error);
-        // Optionally, show error message or handle retry.
-      });
-
-      // Automatically trigger sign-in as soon as the page loads.
-      window.onload = () => {
-        // If there is not already a redirect result, call signInWithGoogle.
-        // (This might be refined to check for any previous state.)
-        signInWithGoogle();
       };
     </script>
   </head>
   <body>
-    <h1>Signing in with Google…</h1>
-    <p>If you are not redirected automatically, please check your browser settings.</p>
+    <h1>Signing in with Google...</h1>
+    <p>Please wait.</p>
   </body>
 </html>
