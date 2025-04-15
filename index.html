@@ -4,30 +4,57 @@
     <meta charset="utf-8" />
     <title>Google Login Redirect Test</title>
     <!-- Load Firebase libraries -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script>
-      // Replace with your Firebase configuration
+    <script type="module">
+      // Import the necessary functions from Firebase via the CDN.
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+      import {
+        getAuth,
+        signInWithPopup,
+        GoogleAuthProvider,
+      } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+      // Replace these with your actual Firebase configuration.
       const firebaseConfig = {
         apiKey: "AIzaSyDvQvYVbzsfKk_-TTlIruZt7Tf28b_XG_4",
-      authDomain: "deskersizer.firebaseapp.com",
-      projectId: "deskersizer",
-      storageBucket: "deskersizer.firebasestorage.app",
-      messagingSenderId: "848878159272",
-      appId: "1:848878159272:web:8626b5d20738370924c99d"
+        authDomain: "deskersizer.firebaseapp.com",
+        projectId: "deskersizer",
+        storageBucket: "deskersizer.firebasestorage.app",
+        messagingSenderId: "848878159272",
+        appId: "1:848878159272:web:8626b5d20738370924c99d"
       };
 
-      const app = firebase.initializeApp(firebaseConfig);
-      const provider = new firebase.auth.GoogleAuthProvider();
-      const auth = firebase.auth(app);
+      // Initialize Firebase using the modular API.
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const provider = new GoogleAuthProvider();
+      // Optionally, add additional scopes if needed:
+      // provider.addScope('https://www.googleapis.com/auth/your_scope');
 
-      window.onload = async function() {
-        const userCred = await signInWithPopup(auth, provider);
-      };
+      async function signInWithGooglePopup() {
+        try {
+          const result = await signInWithPopup(auth, provider);
+          // The signed-in user info.
+          const user = result.user;
+          // Retrieve the ID token for verification or use.
+          const token = await user.getIdToken();
+          console.log("Firebase ID Token:", token);
+          // For testing purposes, display the token on the page.
+          document.body.innerHTML = `<h1>Firebase ID Token:</h1><pre>${token}</pre>`;
+          // When ready for production, you might redirect back via a custom URL:
+          // window.location.href = `myapp://login?token=${token}`;
+        } catch (error) {
+          console.error("Error during signInWithPopup:", error);
+          document.body.innerHTML =
+            `<h1>Error Occurred</h1><p>${error.message}</p>`;
+        }
+      }
+
+      // Automatically trigger the sign-in with popup on page load.
+      window.onload = signInWithGooglePopup;
     </script>
   </head>
   <body>
     <h1>Signing in with Google...</h1>
-    <p>Please wait.</p>
+    <p>Please wait while we initiate the sign-in process.</p>
   </body>
 </html>
