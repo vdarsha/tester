@@ -40,7 +40,7 @@
           // For testing purposes, display the token on the page.
           document.body.innerHTML = `<h1>Firebase ID Token:</h1><pre>${token}</pre>`;
           // When ready for production, you might redirect back via a custom URL:
-          // window.location.href = `myapp://login?token=${token}`;
+          window.location.href = `deskersizer://login?token=${token}`;
         } catch (error) {
           console.error("Error during signInWithPopup:", error);
           document.body.innerHTML =
