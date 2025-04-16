@@ -28,7 +28,7 @@
       const provider = new GoogleAuthProvider();
       // Optionally, add additional scopes if needed:
       // provider.addScope('https://www.googleapis.com/auth/your_scope');
-
+      
       async function signInWithGooglePopup() {
         try {
           const result = await signInWithPopup(auth, provider);
@@ -37,10 +37,21 @@
           // Retrieve the ID token for verification or use.
           const token = await user.getIdToken();
           console.log("Firebase ID Token:", token);
+          const redirectUrl = `deskersizer://?token=${encodeURIComponent(token)}`;
           // For testing purposes, display the token on the page.
           document.body.innerHTML = `<h1>Firebase ID Token:</h1><pre>${token}</pre>`;
           // When ready for production, you might redirect back via a custom URL:
-          window.location.href = `deskersizer://login?token=${token}`;
+           window.location.href = redirectUrl;
+          // Try to close the page. Note: This will only work if the window was opened programmatically.
+          window.close();
+          
+          // As a fallback, display a message if the window doesn't close automatically.
+          setTimeout(() => {
+            document.body.innerHTML = `
+              <h1>Sign-In Complete!</h1>
+              <p>Please close this window to return to the application.</p>
+            `;
+          }, 2000);
         } catch (error) {
           console.error("Error during signInWithPopup:", error);
           document.body.innerHTML =
