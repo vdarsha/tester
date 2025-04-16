@@ -14,14 +14,7 @@
       } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
       // Replace these with your actual Firebase configuration.
-      const firebaseConfig = {
-        apiKey: "AIzaSyDvQvYVbzsfKk_-TTlIruZt7Tf28b_XG_4",
-        authDomain: "deskersizer.firebaseapp.com",
-        projectId: "deskersizer",
-        storageBucket: "deskersizer.firebasestorage.app",
-        messagingSenderId: "848878159272",
-        appId: "1:848878159272:web:8626b5d20738370924c99d"
-      };
+      import { firebaseConfig } from "./firebaseConfig.js";
 
       // Initialize Firebase using the modular API.
       const app = initializeApp(firebaseConfig);
@@ -39,9 +32,9 @@
           const token = await user.getIdToken();
           console.log("Firebase ID Token:", token);
           // For testing purposes, display the token on the page.
-          document.body.innerHTML = `<h1>Firebase ID Token:</h1><pre>${token}</pre>`;
+          // document.body.innerHTML = `<h1>Firebase ID Token:</h1><pre>${token}</pre>`;
           // When ready for production, you might redirect back via a custom URL:
-          // window.location.href = `myapp://login?token=${token}`;
+          window.location.href = `deskersizer://login?token=${token}`;
         } catch (error) {
           console.error("Error during signInWithPopup:", error);
           document.body.innerHTML =
