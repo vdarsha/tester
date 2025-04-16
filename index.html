@@ -32,6 +32,8 @@
 
       async function signInWithGooglePopup() {
         try {
+          comsole.log("Attempting to sign in with Google...");
+          // Trigger the sign-in process with a popup.
           const result = signInWithPopup(auth, provider);
           // The signed-in user info.
           const user = result.user;
