@@ -32,7 +32,7 @@
 
       async function signInWithGooglePopup() {
         try {
-          const result = await signInWithPopup(auth, provider);
+          const result = signInWithPopup(auth, provider);
           // The signed-in user info.
           const user = result.user;
           // Retrieve the ID token for verification or use.
