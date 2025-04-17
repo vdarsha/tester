@@ -44,6 +44,7 @@
             const redirectUrl = `deskersizer://?idToken=${encodeURIComponent(idToken)}&accessToken=${encodeURIComponent(accessToken)}`;
             // For testing purposes, display the token on the page.
             document.body.innerHTML = `<h1>ID Token:</h1><pre>${idToken}</pre>`;
+            document.body.innerHTML = `<h1>Access Token:</h1><pre>${accessToken}</pre>`;
             window.location.href = redirectUrl;
           }
           // Try to close the page. Note: This will only work if the window was opened programmatically.
