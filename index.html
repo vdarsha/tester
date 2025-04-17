@@ -26,6 +26,7 @@
      const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
       const provider = new GoogleAuthProvider();
+      
       // Optionally, add additional scopes if needed:
       // provider.addScope('https://www.googleapis.com/auth/your_scope');
       
@@ -43,8 +44,8 @@
             // Now pass these to your Electron app:
             const redirectUrl = `deskersizer://?idToken=${encodeURIComponent(idToken)}&accessToken=${encodeURIComponent(accessToken)}`;
             // For testing purposes, display the token on the page.
-            document.body.innerHTML = `<h1>ID Token:</h1><pre>${idToken}</pre>`;
-            document.body.innerHTML = `<h1>Access Token:</h1><pre>${accessToken}</pre>`;
+            // document.body.innerHTML = `<h1>ID Token:</h1><pre>${idToken}</pre>`;
+            // document.body.innerHTML = `<h1>Access Token:</h1><pre>${accessToken}</pre>`;
             window.location.href = redirectUrl;
           }
           // Try to close the page. Note: This will only work if the window was opened programmatically.
@@ -59,8 +60,10 @@
           // }, 2000);
         } catch (error) {
           console.error("Error during signInWithPopup:", error);
-          document.body.innerHTML =
-            `<h1>Error Occurred</h1><p>${error.message}</p>`;
+         document.body.innerHTML =
+            `<h1>Error Occurred, if popups are blocked, please enable them and reload this page</h1><p>${error.message}</p>`;
+        } finally {
+          `<h1>Login Complete! You can safely close this window</h1>`
         }
       }
 
