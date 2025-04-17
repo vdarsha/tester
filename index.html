@@ -63,7 +63,7 @@
          document.body.innerHTML =
             `<h1>Error Occurred, if popups are blocked, please enable them and reload this page</h1><p>${error.message}</p>`;
         } finally {
-          `<h1>Login Complete! You can safely close this window</h1>`
+          document.body.innerHTML = `<h1>Login Complete! You can safely close this window</h1>`
         }
       }
 
