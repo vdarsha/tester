@@ -1,78 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9820811083466409"
+     crossorigin="anonymous"></script>
     <meta charset="utf-8" />
-    <title>Google Login Redirect Test</title>
-    <!-- Load Firebase libraries -->
-    <script type="module">
-      // Import the necessary functions from Firebase via the CDN.
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-      import {
-        getAuth,
-        signInWithPopup,
-        GoogleAuthProvider,
-      } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyDvQvYVbzsfKk_-TTlIruZt7Tf28b_XG_4",
-        authDomain: "deskersizer.firebaseapp.com",
-        projectId: "deskersizer",
-        storageBucket: "deskersizer.firebasestorage.app",
-        messagingSenderId: "848878159272",
-        appId: "1:848878159272:web:8626b5d20738370924c99d"
-      };
-
-     // Initialize Firebase using the modular API.
-     const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-      const provider = new GoogleAuthProvider();
-      
-      // Optionally, add additional scopes if needed:
-      // provider.addScope('https://www.googleapis.com/auth/your_scope');
-      
-      async function signInWithGooglePopup() {
-        try {
-          const result = await signInWithPopup(auth, provider);
-          const googleCredential = GoogleAuthProvider.credentialFromResult(result);
-          // // The signed-in user info.
-          // const user = result.user;
-          // // Retrieve the ID token for verification or use.
-          // const token = await user.getIdToken();
-          // console.log("Firebase ID Token:", token);
-          if (googleCredential) {
-            const { idToken, accessToken } = googleCredential;
-            // Now pass these to your Electron app:
-            const redirectUrl = `deskersizer://?idToken=${encodeURIComponent(idToken)}&accessToken=${encodeURIComponent(accessToken)}`;
-            // For testing purposes, display the token on the page.
-            // document.body.innerHTML = `<h1>ID Token:</h1><pre>${idToken}</pre>`;
-            // document.body.innerHTML = `<h1>Access Token:</h1><pre>${accessToken}</pre>`;
-            window.location.href = redirectUrl;
-          }
-          // Try to close the page. Note: This will only work if the window was opened programmatically.
-          // window.close();
-          
-          // As a fallback, display a message if the window doesn't close automatically.
-          // setTimeout(() => {
-          //   document.body.innerHTML = `
-          //     <h1>Sign-In Complete!</h1>
-          //     <p>Please close this window to return to the application.</p>
-          //   `;
-          // }, 2000);
-        } catch (error) {
-          console.error("Error during signInWithPopup:", error);
-         document.body.innerHTML =
-            `<h1>Error Occurred, if popups are blocked, please enable them and reload this page</h1><p>${error.message}</p>`;
-        } finally {
-          document.body.innerHTML = `<h1>Login Complete! You can safely close this window</h1>`
-        }
-      }
-
-      // Automatically trigger the sign-in with popup on page load.
-      window.onload = signInWithGooglePopup;
-    </script>
+    <title>MyApp Ads</title>
+    <style>
+      body { margin: 0; padding: 0; display: flex; justify-content: center; }
+    </style>
+    <!-- Replace with your AdSense (or other) snippet -->
+    <script async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+      data-ad-client="ca-pub-XXXXXXXXXXXXXX"></script>
   </head>
   <body>
-    <h1>Signing in with Google...</h1>
-    <p>Please wait while we initiate the sign-in process.</p>
+    <ins class="adsbygoogle"
+         style="display:block; width:320px; height:50px"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXX"
+         data-ad-slot="1234567890"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
   </body>
 </html>
